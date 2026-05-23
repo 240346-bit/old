@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StudyHub — Проект 1 (вертикальный)</title>
+    <title>EduFlow — Образовательный поток</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         * {
@@ -13,15 +13,15 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f0fdf4;
             padding: 20px;
             min-height: 100vh;
             transition: all 0.3s;
         }
 
         body.dark {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            background: #0f172a;
         }
 
         .container {
@@ -43,65 +43,81 @@
 
         .login-card {
             background: white;
-            border-radius: 20px;
-            padding: 40px;
+            border-radius: 32px;
+            padding: 48px 40px;
             text-align: center;
-            max-width: 400px;
+            max-width: 420px;
             width: 90%;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
         }
 
         body.dark .login-card {
-            background: #16213e;
+            background: #1e293b;
             color: white;
         }
 
         .login-card h2 {
-            margin-bottom: 15px;
+            font-size: 32px;
+            margin-bottom: 12px;
+        }
+
+        .login-card p {
+            color: #64748b;
+            margin-bottom: 24px;
+        }
+
+        body.dark .login-card p {
+            color: #94a3b8;
         }
 
         .btn-google {
             background: white;
-            border: 2px solid #ddd;
+            border: 1px solid #e2e8f0;
             padding: 12px 24px;
-            border-radius: 12px;
+            border-radius: 40px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 12px;
             width: 100%;
             cursor: pointer;
-            font-weight: 600;
-            margin-top: 20px;
+            font-weight: 500;
+            font-size: 15px;
+            transition: all 0.2s;
+        }
+
+        .btn-google:hover {
+            background: #f8fafc;
+            border-color: #cbd5e1;
         }
 
         body.dark .btn-google {
-            background: #2c3e50;
+            background: #334155;
             color: white;
-            border-color: #3d4f5f;
+            border-color: #475569;
         }
 
         /* Шапка */
         .header {
             background: white;
-            border-radius: 20px;
-            padding: 15px 25px;
+            border-radius: 24px;
+            padding: 16px 24px;
             margin-bottom: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
 
         body.dark .header {
-            background: #16213e;
+            background: #1e293b;
             color: white;
         }
 
         .logo {
             font-size: 24px;
-            font-weight: bold;
-            background: linear-gradient(135deg, #4361ee, #a855f7);
+            font-weight: 700;
+            background: linear-gradient(135deg, #10b981, #06b6d4);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -109,97 +125,118 @@
         .user-info {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 16px;
         }
 
         .avatar {
-            width: 45px;
-            height: 45px;
-            background: linear-gradient(135deg, #4361ee, #a855f7);
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, #10b981, #06b6d4);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-weight: bold;
+            font-weight: 600;
+            font-size: 16px;
         }
 
         .btn-logout {
-            background: #e74c3c;
+            background: #ef4444;
             color: white;
             border: none;
-            padding: 8px 16px;
-            border-radius: 10px;
+            padding: 8px 18px;
+            border-radius: 40px;
             cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
         }
 
-        /* Карточки (вертикально) */
+        .btn-logout:hover {
+            background: #dc2626;
+        }
+
+        /* Карточки */
         .card {
             background: white;
-            border-radius: 20px;
-            padding: 20px;
+            border-radius: 24px;
+            padding: 24px;
             margin-bottom: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            transition: all 0.2s;
         }
 
         body.dark .card {
-            background: #16213e;
+            background: #1e293b;
             color: white;
         }
 
         h3 {
-            margin-bottom: 15px;
-            padding-left: 10px;
-            border-left: 4px solid #4361ee;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            padding-left: 12px;
+            border-left: 4px solid #10b981;
         }
 
         /* Кнопки статусов */
         .status-buttons {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
+            gap: 12px;
             margin: 20px 0;
         }
 
         .status-btn {
             padding: 12px;
             border: none;
-            border-radius: 14px;
+            border-radius: 60px;
             font-weight: 600;
+            font-size: 14px;
             color: white;
             cursor: pointer;
-            transition: transform 0.1s;
+            transition: all 0.2s;
         }
 
-        .status-btn:active {
-            transform: scale(0.96);
+        .status-btn:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.05);
         }
 
-        .status-btn.study { background: #2ecc71; }
-        .status-btn.break { background: #f39c12; }
-        .status-btn.finish { background: #e74c3c; }
-        .status-btn.exit { background: #95a5a6; }
+        .status-btn.study { background: #10b981; }
+        .status-btn.break { background: #f59e0b; }
+        .status-btn.finish { background: #ef4444; }
+        .status-btn.exit { background: #64748b; }
 
         /* Таймер */
         .timer {
             text-align: center;
-            padding: 20px;
-            background: rgba(67, 97, 238, 0.1);
-            border-radius: 16px;
-            margin: 15px 0;
+            padding: 24px;
+            background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+            border-radius: 20px;
+            margin: 16px 0;
+        }
+
+        body.dark .timer {
+            background: #0f172a;
         }
 
         .timer-display {
-            font-size: 32px;
-            font-weight: bold;
+            font-size: 40px;
+            font-weight: 700;
             font-family: monospace;
-            color: #4361ee;
+            color: #10b981;
+            letter-spacing: 2px;
         }
 
         .total-stats {
-            margin-top: 10px;
-            font-size: 12px;
-            opacity: 0.8;
+            margin-top: 12px;
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        body.dark .total-stats {
+            color: #94a3b8;
         }
 
         /* Достижения */
@@ -207,23 +244,24 @@
             display: flex;
             flex-wrap: wrap;
             gap: 10px;
-            margin-top: 15px;
+            margin-top: 16px;
         }
 
         .badge {
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 11px;
-            background: #f0f2f5;
+            padding: 6px 14px;
+            border-radius: 40px;
+            font-size: 12px;
+            background: #f1f5f9;
             cursor: pointer;
+            transition: all 0.2s;
         }
 
         body.dark .badge {
-            background: #2c3e50;
+            background: #334155;
         }
 
         .badge.unlocked {
-            background: linear-gradient(135deg, #f9d423, #ff4e50);
+            background: linear-gradient(135deg, #10b981, #059669);
             color: white;
         }
 
@@ -233,7 +271,7 @@
 
         /* Рейтинг и группа */
         .rank-list, .member-list {
-            max-height: 300px;
+            max-height: 280px;
             overflow-y: auto;
         }
 
@@ -241,27 +279,28 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 0;
-            border-bottom: 1px solid #e0e0e0;
+            padding: 12px 0;
+            border-bottom: 1px solid #e2e8f0;
         }
 
         body.dark .rank-item, body.dark .member {
-            border-bottom-color: #2c3e50;
+            border-bottom-color: #334155;
         }
 
         .rank-number {
-            width: 35px;
-            font-weight: bold;
+            width: 36px;
+            font-weight: 700;
+            font-size: 18px;
         }
 
-        .rank-number.gold { color: #ffd700; }
-        .rank-number.silver { color: #c0c0c0; }
-        .rank-number.bronze { color: #cd7f32; }
+        .rank-number.gold { color: #fbbf24; }
+        .rank-number.silver { color: #94a3b8; }
+        .rank-number.bronze { color: #d97706; }
 
         .member-left {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
 
         .online-dot {
@@ -271,13 +310,13 @@
         }
 
         .online-dot.online {
-            background: #2ecc71;
-            box-shadow: 0 0 5px #2ecc71;
+            background: #10b981;
+            box-shadow: 0 0 6px #10b981;
             animation: pulse 2s infinite;
         }
 
         .online-dot.offline {
-            background: #95a5a6;
+            background: #94a3b8;
         }
 
         @keyframes pulse {
@@ -289,19 +328,19 @@
         .chat-messages {
             height: 300px;
             overflow-y: auto;
-            padding: 15px;
-            background: #f0f2f5;
-            border-radius: 16px;
-            margin-bottom: 15px;
+            padding: 16px;
+            background: #f8fafc;
+            border-radius: 20px;
+            margin-bottom: 16px;
         }
 
         body.dark .chat-messages {
-            background: #0f0f1a;
+            background: #0f172a;
         }
 
         .message {
-            margin-bottom: 12px;
-            max-width: 70%;
+            margin-bottom: 16px;
+            max-width: 75%;
         }
 
         .message-mine {
@@ -309,80 +348,95 @@
         }
 
         .message-bubble {
-            padding: 8px 14px;
-            border-radius: 18px;
+            padding: 10px 16px;
+            border-radius: 20px;
             background: white;
             display: inline-block;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
         }
 
         body.dark .message-bubble {
-            background: #2c3e50;
+            background: #334155;
             color: white;
         }
 
         .message-mine .message-bubble {
-            background: #4361ee;
+            background: #10b981;
             color: white;
         }
 
         .message-name {
             font-size: 11px;
-            font-weight: bold;
+            font-weight: 600;
             margin-bottom: 4px;
+            opacity: 0.8;
         }
 
         .message-time {
             font-size: 10px;
             margin-top: 4px;
-            opacity: 0.7;
+            opacity: 0.6;
         }
 
         .chat-input-area {
             display: flex;
-            gap: 10px;
+            gap: 12px;
         }
 
         .chat-input {
             flex: 1;
-            padding: 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 25px;
+            padding: 12px 18px;
+            border: 1px solid #e2e8f0;
+            border-radius: 60px;
             outline: none;
+            font-size: 14px;
         }
 
         body.dark .chat-input {
-            background: #2c3e50;
-            border-color: #3d4f5f;
+            background: #334155;
+            border-color: #475569;
             color: white;
         }
 
         .chat-send {
-            padding: 12px 25px;
-            background: #4361ee;
+            padding: 12px 24px;
+            background: #10b981;
             color: white;
             border: none;
-            border-radius: 25px;
+            border-radius: 60px;
             cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .chat-send:hover {
+            background: #059669;
         }
 
         /* Кнопки действий */
         .action-bar {
             display: flex;
-            gap: 10px;
-            margin-top: 15px;
+            gap: 12px;
+            margin-top: 16px;
         }
 
         .action-btn {
             flex: 1;
             padding: 10px;
             border: none;
-            border-radius: 12px;
-            font-weight: 600;
+            border-radius: 60px;
+            font-weight: 500;
             cursor: pointer;
+            transition: all 0.2s;
         }
 
         .stats-btn {
-            background: #4361ee;
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+
+        body.dark .stats-btn {
+            background: #334155;
             color: white;
         }
 
@@ -411,14 +465,14 @@
 
         .modal-content {
             background: white;
-            border-radius: 24px;
-            padding: 25px;
+            border-radius: 32px;
+            padding: 28px;
             max-width: 450px;
             width: 90%;
         }
 
         body.dark .modal-content {
-            background: #16213e;
+            background: #1e293b;
             color: white;
         }
 
@@ -432,15 +486,16 @@
         .close-modal {
             background: none;
             border: none;
-            font-size: 24px;
+            font-size: 28px;
             cursor: pointer;
+            color: #64748b;
         }
 
         .stat-item {
             display: flex;
             justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid #e0e0e0;
+            padding: 12px 0;
+            border-bottom: 1px solid #e2e8f0;
         }
 
         /* Уведомления */
@@ -448,17 +503,14 @@
             position: fixed;
             top: 20px;
             right: 20px;
-            background: #4361ee;
+            background: #10b981;
             color: white;
-            padding: 12px 20px;
-            border-radius: 12px;
+            padding: 14px 20px;
+            border-radius: 16px;
             z-index: 2000;
             animation: slideIn 0.3s ease;
-            max-width: 300px;
-        }
-
-        .notification.success {
-            background: #2ecc71;
+            max-width: 320px;
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1);
         }
 
         @keyframes slideIn {
@@ -469,11 +521,10 @@
 </head>
 <body>
 
-<!-- Страница входа -->
 <div id="loginPage" class="login-container">
     <div class="login-card">
-        <h2>📚 StudyHub</h2>
-        <p>Войдите через Google, чтобы продолжить</p>
+        <h2>🌊 EduFlow</h2>
+        <p>Войдите через Google, чтобы начать обучение</p>
         <button id="googleLogin" class="btn-google">
             <svg width="20" height="20" viewBox="0 0 24 24">
                 <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -486,10 +537,9 @@
     </div>
 </div>
 
-<!-- Основное приложение (вертикальная структура) -->
 <div id="app" class="container hidden">
     <div class="header">
-        <div class="logo">📖 StudyHub</div>
+        <div class="logo">🌊 EduFlow</div>
         <div class="user-info">
             <span id="userName">Загрузка...</span>
             <div class="avatar" id="userAvatar">A</div>
@@ -497,7 +547,6 @@
         </div>
     </div>
 
-    <!-- Блок 1: Моя сессия -->
     <div class="card">
         <h3>🎯 Моя сессия</h3>
         <div class="status-buttons">
@@ -508,34 +557,30 @@
         </div>
         <div class="timer">
             <div class="timer-display" id="timer">0д 00:00:00</div>
-            <div style="font-size: 12px;">текущая сессия</div>
+            <div style="font-size: 13px; margin-top: 8px;">текущая сессия</div>
             <div class="total-stats" id="totalStats">Всего: 0д 00:00:00</div>
         </div>
         <div class="action-bar">
-            <button class="action-btn stats-btn" id="statsBtn">📊 Моя статистика</button>
-            <button class="action-btn theme-btn" id="themeBtn">🎨 Сменить тему</button>
+            <button class="action-btn stats-btn" id="statsBtn">📊 Статистика</button>
+            <button class="action-btn theme-btn" id="themeBtn">🎨 Тема</button>
         </div>
     </div>
 
-    <!-- Блок 2: Мои достижения -->
     <div class="card">
         <h3>🏆 Мои достижения</h3>
         <div class="badge-list" id="achievementsList">Загрузка...</div>
     </div>
 
-    <!-- Блок 3: Топ студентов -->
     <div class="card">
         <h3>🏆 Топ студентов</h3>
         <div class="rank-list" id="ratingList">Загрузка...</div>
     </div>
 
-    <!-- Блок 4: Монитор группы -->
     <div class="card">
         <h3>👥 Монитор группы</h3>
         <div class="member-list" id="groupList">Загрузка...</div>
     </div>
 
-    <!-- Блок 5: Общий чат -->
     <div class="card">
         <h3>💬 Общий чат</h3>
         <div class="chat-messages" id="chatMessages">
@@ -548,7 +593,6 @@
     </div>
 </div>
 
-<!-- Модалка статистики -->
 <div id="statsModal" class="modal">
     <div class="modal-content">
         <div class="modal-header">
@@ -560,11 +604,9 @@
 </div>
 
 <script>
-    // ========== ТВОИ ДАННЫЕ ==========
     const SUPABASE_URL = 'https://ocqojoxcsrbympxbsoww.supabase.co';
     const SUPABASE_KEY = 'sb_publishable_MFT3SCoK_kqFYBWyVQIFmQ_SnRYLGw-';
     const SITE_URL = 'https://240346-bit.github.io/old/';
-    // =================================
 
     const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
@@ -585,7 +627,7 @@
 
     function showNotification(title, message) {
         const notif = document.createElement('div');
-        notif.className = 'notification success';
+        notif.className = 'notification';
         notif.innerHTML = `<strong>${title}</strong><br><small>${message}</small>`;
         document.body.appendChild(notif);
         setTimeout(() => notif.remove(), 3000);
@@ -610,7 +652,6 @@
             .select('total_seconds')
             .eq('user_id', currentUser.id)
             .maybeSingle();
-        
         if (data) {
             document.getElementById('totalStats').innerHTML = `Всего: ${formatTime(data.total_seconds)}`;
         }
@@ -618,7 +659,6 @@
 
     async function saveStudyTime() {
         if (!currentUser) return;
-        
         const { data: existing } = await supabaseClient
             .from('study_stats')
             .select('total_seconds')
@@ -648,14 +688,12 @@
 
     async function unlockAchievement(key) {
         if (!currentUser) return;
-        
         const { data: existing } = await supabaseClient
             .from('user_achievements')
             .select('id')
             .eq('user_id', currentUser.id)
             .eq('achievement', key)
             .maybeSingle();
-        
         if (existing) return;
         
         await supabaseClient.from('user_achievements').insert({
@@ -673,9 +711,7 @@
         timerInterval = setInterval(async () => {
             totalStudySeconds++;
             updateTimerDisplay();
-            
             if (totalStudySeconds % 30 === 0) await saveStudyTime();
-            
             if (totalStudySeconds === 1) await unlockAchievement('first_session');
             if (totalStudySeconds >= 7200) await unlockAchievement('marathoner');
         }, 1000);
@@ -690,7 +726,6 @@
 
     async function updateStatus(statusType) {
         if (!currentUser) return;
-        
         const previousStatus = currentUser.status_type;
         
         if (statusType === 'study' && !timerInterval) {
@@ -724,19 +759,16 @@
         }).eq('id', currentUser.id);
         
         currentUser.status_type = statusType;
-        
         await loadGroup();
         await loadRating();
     }
 
     async function loadAchievements() {
         if (!currentUser) return;
-        
         const { data } = await supabaseClient
             .from('user_achievements')
             .select('achievement')
             .eq('user_id', currentUser.id);
-        
         const unlocked = new Set(data?.map(a => a.achievement) || []);
         
         document.getElementById('achievementsList').innerHTML = ACHIEVEMENTS.map(ach => `
@@ -754,7 +786,7 @@
             .limit(10);
         
         if (!data || data.length === 0) {
-            document.getElementById('ratingList').innerHTML = '<div>Нет данных</div>';
+            document.getElementById('ratingList').innerHTML = '<div style="color: #64748b;">Нет данных</div>';
             return;
         }
         
@@ -785,7 +817,6 @@
         
         document.getElementById('groupList').innerHTML = data.map(user => {
             const isOnline = user.status_type !== 'exit' && user.last_active && user.last_active > twoMinutesAgo;
-            
             let statusIcon = '';
             switch(user.status_type) {
                 case 'study': statusIcon = '📚'; break;
@@ -793,16 +824,14 @@
                 case 'finish': statusIcon = '🏁'; break;
                 default: statusIcon = '💤';
             }
-            
             const hours = Math.floor(user.study_seconds / 3600);
-            
             return `
                 <div class="member">
                     <div class="member-left">
                         <div class="online-dot ${isOnline ? 'online' : 'offline'}"></div>
                         <div>
                             <strong>${escapeHtml(user.username)}</strong>
-                            <div style="font-size: 11px;">${statusIcon} ${user.status || '—'}</div>
+                            <div style="font-size: 11px; color: #64748b;">${statusIcon} ${user.status || '—'}</div>
                         </div>
                     </div>
                     <div>${hours}ч</div>
@@ -833,7 +862,6 @@
         
         if (count >= 20) await unlockAchievement('activist');
         if (count >= 50) await unlockAchievement('soul');
-        
         await loadMessages();
     }
 
@@ -848,7 +876,7 @@
         if (!container) return;
         
         if (!data || data.length === 0) {
-            container.innerHTML = '<div style="text-align: center;">💬 Нет сообщений</div>';
+            container.innerHTML = '<div style="text-align: center; color: #64748b;">💬 Нет сообщений</div>';
             return;
         }
         
@@ -861,13 +889,11 @@
                 </div>
             </div>
         `).join('');
-        
         container.scrollTop = container.scrollHeight;
     }
 
     async function showStats() {
         if (!currentUser) return;
-        
         const { count: msgCount } = await supabaseClient
             .from('messages')
             .select('*', { count: 'exact', head: true })
@@ -902,7 +928,6 @@
             <div class="stat-item"><span>🏆 Достижений:</span><span>${achievements?.length || 0}/${ACHIEVEMENTS.length}</span></div>
             <div class="stat-item"><span>🟢 Статус:</span><span>${profile?.status || '—'}</span></div>
         `;
-        
         document.getElementById('statsModal').classList.add('active');
     }
 
@@ -925,23 +950,19 @@
 
     function setupRealtime() {
         const channel = supabaseClient.channel('realtime-channel');
-        
         channel.on('postgres_changes', { event: '*', schema: 'public', table: 'profiles' }, () => {
             loadGroup();
             loadRating();
         });
-        
         channel.on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages' }, (payload) => {
             if (payload.new && payload.new.user_id !== currentUser?.id) {
                 showNotification(`Новое сообщение от ${payload.new.username}`, payload.new.message);
             }
             loadMessages();
         });
-        
         channel.on('postgres_changes', { event: '*', schema: 'public', table: 'user_achievements' }, () => {
             loadAchievements();
         });
-        
         channel.subscribe();
     }
 
@@ -976,9 +997,7 @@
         currentUser = { ...user, status_type: existing?.status_type || 'exit' };
         
         const hour = new Date().getHours();
-        if (hour < 8) {
-            await unlockAchievement('early_bird');
-        }
+        if (hour < 8) await unlockAchievement('early_bird');
         
         const today = new Date().toISOString().split('T')[0];
         const { data: todayLogin } = await supabaseClient
@@ -1017,32 +1036,26 @@
     async function onAuthStateChange(user) {
         if (user) {
             await syncProfile(user);
-            
             document.getElementById('userName').textContent = user.user_metadata?.full_name || user.email;
             document.getElementById('userAvatar').textContent = (user.user_metadata?.full_name || user.email || 'U')[0].toUpperCase();
-            
             await loadGroup();
             await loadMessages();
             await loadRating();
             await loadAchievements();
             await loadTotalStats();
-            
             if (heartbeatInterval) clearInterval(heartbeatInterval);
             heartbeatInterval = setInterval(updateHeartbeat, 30000);
             setupRealtime();
-            
             document.getElementById('loginPage').classList.add('hidden');
             document.getElementById('app').classList.remove('hidden');
         } else {
             currentUser = null;
             stopTimer();
-            
             document.getElementById('loginPage').classList.remove('hidden');
             document.getElementById('app').classList.add('hidden');
         }
     }
 
-    // Обработчики
     document.getElementById('googleLogin')?.addEventListener('click', login);
     document.getElementById('logoutBtn')?.addEventListener('click', logout);
     document.getElementById('sendBtn')?.addEventListener('click', sendMessage);
@@ -1064,7 +1077,6 @@
         btn.addEventListener('click', () => updateStatus(btn.dataset.status));
     });
 
-    // Авторизация
     supabaseClient.auth.onAuthStateChange((event, session) => {
         if (event === 'SIGNED_IN' && session?.user) {
             onAuthStateChange(session.user);
